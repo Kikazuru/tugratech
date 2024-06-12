@@ -7,7 +7,11 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      meta: {
+        description:
+          'Jasa pembuatan website murah dan mudah untuk pemula. Kami membantu Anda membuat website profesional tanpa perlu pengetahuan coding.'
+      }
     },
     {
       path: '/about',
@@ -18,6 +22,16 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     }
   ]
+})
+
+router.beforeEach((to) => {
+  const { description } = to.meta
+  const defaultDescription = 'Default Description'
+
+  const descriptionElement = document.querySelector('head meta[name="description"]')
+
+  if (descriptionElement !== null)
+    descriptionElement.setAttribute('content', (description as string) ?? defaultDescription)
 })
 
 export default router
